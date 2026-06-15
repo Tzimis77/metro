@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0d1f3c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Μετρό ΘΕΣ">
+<meta name="description" content="Μετρό Θεσσαλονίκης — ωράρια, σταθμοί, live status">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<title>Μετρό Θεσσαλονίκης</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --navy:#0d1f3c;
+  --navy2:#162d52;
+  --navy3:#1e3a68;
+  --gold:#f0c040;
+  --gold2:#e6a800;
+  --white:#f5f7fa;
+  --muted:#8a9ab5;
+  --red:#e74c3c;
+  --green:#27ae60;
+  --card:#162d52;
+  --border:rgba(255,255,255,0.08);
+  --safe-top:env(safe-area-inset-top,0px);
+  --safe-bot:env(safe-area-inset-bottom,0px);
+}
+html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;overflow:hidden}
+
+/* LAYOUT */
+.app{display:flex;flex-direction:column;height:100%;height:100dvh}
+.header{background:var(--navy);padding:calc(var(--safe-top) + 14px) 20px 0;flex-shrink:0}
+.content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--safe-bot) + 70px)}
+.tabs-bar{position:fixed;bottom:0;left:0;right:0;background:var(--navy);border-top:0.5px solid var(--border);padding-bottom:var(--safe-bot);display:flex;z-index:100}
+
+/* HEADER */
+.header-inner{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
+.logo-line{font-size:11px;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
+.logo-name{font-size:24px;font-weight:600;letter-spacing:-0.5px;color:var(--white)}
+.logo-name span{color:var(--gold)}
+.status-pill{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,0.06);border:0.5px solid var(--border);border-radius:20px;padding:6px 12px;font-size:12px;font-weight:500}
+.dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.dot.ok{background:var(--green);box-shadow:0 0 6px var(--green)}
+.dot.off{background:var(--red);box-shadow:0 0 6px var(--red)}
+.dot.pulse{animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+
+/* NEXT TRAIN CARD */
+.next-card{background:var(--navy3);border:0.5px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
+.next-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
+.next-big{font-size:42px;font-weight:300;font-family:'DM Mono',monospace;color:var(--gold);line-height:1}
+.next-unit{font-size:13px;color:var(--muted);margin-top:2px}
+.next-right{text-align:right}
+.next-time{font-size:20px;font-weight:500;font-family:'DM Mono',monospace}
+.next-dir{font-size:12px;color:var(--muted);margin-top:2px}
+.freq-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(240,192,64,0.1);border:0.5px solid rgba(240,192,64,0.3);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--gold);margin-top:8px}
+
+/* ALERT BAR */
+.alert{background:rgba(231,76,60,0.12);border:0.5px solid rgba(231,76,60,0.3);border-radius:12px;padding:12px 14px;margin:12px 16px 0;display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:#f5a49a}
+.alert svg{flex-shrink:0;margin-top:1px}
+.alert.hidden{display:none}
+
+/* SECTION */
+.section{padding:16px}
+.section-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:10px;font-weight:500}
+
+/* STATION LIST */
+.station{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:0.5px solid var(--border)}
+.station:last-child{border-bottom:none}
+.stn-num{width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--navy3);font-size:11px;font-weight:600;font-family:'DM Mono',monospace;color:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.stn-name{flex:1;font-size:14px;font-weight:400}
+.stn-name-en{font-size:11px;color:var(--muted);margin-top:1px}
+.stn-icons{display:flex;gap:6px;color:var(--muted);font-size:13px}
+.elevator-off{color:var(--red)!important}
+
+/* SCHEDULE */
+.sched-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border)}
+.sched-row:last-child{border-bottom:none}
+.sched-key{font-size:13px;color:var(--muted)}
+.sched-val{font-size:13px;font-weight:500;font-family:'DM Mono',monospace;color:var(--white)}
+
+/* TICKETS */
+.ticket-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px}
+.ticket-name{font-size:13px;color:var(--muted);margin-bottom:6px}
+.ticket-row{display:flex;justify-content:space-between;align-items:baseline}
+.ticket-price{font-size:22px;font-weight:500;font-family:'DM Mono',monospace;color:var(--gold)}
+.ticket-reduced{font-size:13px;color:var(--muted)}
+
+/* NEWS */
+.news-item{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;cursor:pointer;transition:background 0.15s}
+.news-item:active{background:var(--navy3)}
+.news-title{font-size:14px;font-weight:500;line-height:1.4;margin-bottom:4px}
+.news-date{font-size:11px;color:var(--muted)}
+
+/* COUNTDOWN */
+.countdown{display:flex;gap:8px;margin-bottom:14px}
+.cd-box{flex:1;background:var(--card);border-radius:10px;padding:10px;text-align:center;border:0.5px solid var(--border)}
+.cd-num{font-size:24px;font-weight:500;font-family:'DM Mono',monospace;color:var(--gold)}
+.cd-lbl{font-size:10px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em}
+
+/* BOTTOM NAV */
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;background:none;border:none;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:0.04em;transition:color 0.15s}
+.tab-btn.active{color:var(--gold)}
+.tab-btn svg{width:22px;height:22px;stroke-width:1.5}
+
+/* LOADING */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:12px;color:var(--muted);font-size:13px}
+.spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* PAGE TRANSITIONS */
+.page{display:none;animation:fadeIn 0.2s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+.header-pad{height:16px}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-inner">
+      <div>
+        <div class="logo-line">Θεσσαλονίκη</div>
+        <div class="logo-name">Μετρό <span>ΘΕΣ</span></div>
+      </div>
+      <div class="status-pill" id="statusPill">
+        <div class="dot off pulse" id="statusDot"></div>
+        <span id="statusText">Φόρτωση...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- PAGE: HOME -->
+    <div class="page active" id="page-home">
+      <div style="padding:16px 16px 0">
+        <!-- Alert -->
+        <div class="alert hidden" id="alertBar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          <span id="alertText"></span>
+        </div>
+
+        <!-- Next Train -->
+        <div class="next-card" id="nextCard" style="margin-top:12px">
+          <div>
+            <div class="next-label">Επόμενο τρένο</div>
+            <div class="next-big" id="nextMin">—</div>
+            <div class="next-unit" id="nextUnit"></div>
+            <div class="freq-badge">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              κάθε 3.5 λεπτά
+            </div>
+          </div>
+          <div class="next-right">
+            <div class="next-label">Άφιξη</div>
+            <div class="next-time" id="nextTime">—</div>
+            <div class="next-dir" id="nextDir"></div>
+          </div>
+        </div>
+
+        <!-- Countdown if disrupted -->
+        <div id="countdownWrap" style="display:none;margin-top:12px">
+          <div class="section-label">Επανεκκίνηση σε</div>
+          <div class="countdown" id="countdown"></div>
+        </div>
+      </div>
+
+      <!-- Quick stats -->
+      <div class="section" style="padding-top:14px">
+        <div class="section-label">Γρήγορη πληροφορία</div>
+        <div class="sched-row"><span class="sched-key">Γραμμές</span><span class="sched-val">1</span></div>
+        <div class="sched-row"><span class="sched-key">Σταθμοί</span><span class="sched-val">13</span></div>
+        <div class="sched-row"><span class="sched-key">Μήκος</span><span class="sched-val">9.6 χλμ</span></div>
+        <div class="sched-row"><span class="sched-key">Διαδρομή άκρο-άκρο</span><span class="sched-val">~16 λεπτά</span></div>
+        <div class="sched-row"><span class="sched-key">Operator</span><span class="sched-val">ΘΕΜΑ</span></div>
+      </div>
+
+      <!-- News -->
+      <div class="section" style="padding-top:0">
+        <div class="section-label">Τελευταία νέα</div>
+        <div id="newsList"><div class="loading"><div class="spinner"></div><span>Φόρτωση νέων...</span></div></div>
+      </div>
+    </div>
+
+    <!-- PAGE: STATIONS -->
+    <div class="page" id="page-stations">
+      <div class="section">
+        <div class="section-label">Γραμμή Μ1 — 13 σταθμοί</div>
+        <div id="stationList"></div>
+      </div>
+    </div>
+
+    <!-- PAGE: SCHEDULE -->
+    <div class="page" id="page-schedule">
+      <div class="section">
+        <div class="section-label">Ωράριο λειτουργίας</div>
+        <div class="sched-row"><span class="sched-key">Δευτ–Παρ πρώτο</span><span class="sched-val">05:30</span></div>
+        <div class="sched-row"><span class="sched-key">Δευτ–Παρ τελευταίο</span><span class="sched-val">23:30</span></div>
+        <div class="sched-row"><span class="sched-key">Σαββ–Κυρ πρώτο</span><span class="sched-val">06:00</span></div>
+        <div class="sched-row"><span class="sched-key">Σαββ–Κυρ τελευταίο</span><span class="sched-val">23:30</span></div>
+        <div class="sched-row"><span class="sched-key">Συχνότητα</span><span class="sched-val">3.5 λεπτά</span></div>
+      </div>
+
+      <div class="section" style="padding-top:0">
+        <div class="section-label">Εισιτήρια</div>
+        <div class="ticket-card">
+          <div class="ticket-name">Απλό εισιτήριο</div>
+          <div class="ticket-row"><span class="ticket-price">€0.60</span><span class="ticket-reduced">Μειωμένο €0.30</span></div>
+        </div>
+        <div class="ticket-card">
+          <div class="ticket-name">Ημερήσιο</div>
+          <div class="ticket-row"><span class="ticket-price">€2.50</span><span class="ticket-reduced">Απεριόριστες διαδρομές</span></div>
+        </div>
+        <div class="ticket-card">
+          <div class="ticket-name">Δέσμη 10+1</div>
+          <div class="ticket-row"><span class="ticket-price">€5.80</span><span class="ticket-reduced">Μειωμένο €2.90</span></div>
+        </div>
+        <div class="ticket-card">
+          <div class="ticket-name">Κάρτα 30 ημερών</div>
+          <div class="ticket-row"><span class="ticket-price">€16.00</span><span class="ticket-reduced">Μειωμένο €8.00</span></div>
+        </div>
+        <div class="ticket-card">
+          <div class="ticket-name">Κάρτα 90 ημερών</div>
+          <div class="ticket-row"><span class="ticket-price">€45.00</span><span class="ticket-reduced">Μειωμένο €22.50</span></div>
+        </div>
+        <div class="ticket-card">
+          <div class="ticket-name">Κάρτα 180 ημερών</div>
+          <div class="ticket-row"><span class="ticket-price">€85.00</span><span class="ticket-reduced">Μειωμένο €42.50</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PAGE: INFO -->
+    <div class="page" id="page-info">
+      <div class="section">
+        <div class="section-label">Επικοινωνία</div>
+        <div class="sched-row"><span class="sched-key">Website</span><a href="https://thessmetro.gr" style="color:var(--gold);font-size:13px">thessmetro.gr</a></div>
+        <div class="sched-row"><span class="sched-key">Operator</span><span class="sched-val">ΘΕΜΑ Α.Ε.</span></div>
+      </div>
+      <div class="section" style="padding-top:0">
+        <div class="section-label">Εκδοτήρια (07:00–19:00)</div>
+        <div class="sched-row"><span class="sched-key">Νέος Σιδηρ. Σταθμός</span><span class="sched-val" style="color:var(--green)">✓</span></div>
+        <div class="sched-row"><span class="sched-key">Βενιζέλου</span><span class="sched-val" style="color:var(--green)">✓</span></div>
+        <div class="sched-row"><span class="sched-key">Αγίας Σοφίας</span><span class="sched-val" style="color:var(--green)">✓</span></div>
+        <div class="sched-row"><span class="sched-key">25ης Μαρτίου</span><span class="sched-val" style="color:var(--green)">✓</span></div>
+        <div class="sched-row"><span class="sched-key">Νέα Ελβετία</span><span class="sched-val" style="color:var(--green)">✓</span></div>
+      </div>
+      <div class="section" style="padding-top:0;text-align:center">
+        <div style="font-size:11px;color:var(--muted);line-height:1.6">
+          Δεδομένα από thessmetro.gr<br>
+          Ενημέρωση κάθε 30 λεπτά
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+
+  <!-- BOTTOM NAV -->
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="switchTab('home',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Αρχή
+    </button>
+    <button class="tab-btn" onclick="switchTab('stations',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      Σταθμοί
+    </button>
+    <button class="tab-btn" onclick="switchTab('schedule',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      Ωράρια
+    </button>
+    <button class="tab-btn" onclick="switchTab('info',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+      Πληροφορίες
+    </button>
+  </div>
+
+</div>
+
+<script>
+const JSON_URL = 'https://raw.githubusercontent.com/Tzimis77/metro/main/public/metro_status.json';
+const STATIONS = [
+  {id:1, name:'Νέος Σιδηροδρομικός Σταθμός', en:'New Railway Station'},
+  {id:2, name:'Δημοκρατίας', en:'Dimokratias'},
+  {id:3, name:'Βενιζέλου', en:'Venizelou'},
+  {id:4, name:'Αγίας Σοφίας', en:'Agias Sofias'},
+  {id:5, name:'Σιντριβάνι', en:'Sintrivani'},
+  {id:6, name:'Πανεπιστήμιο', en:'Panepistimio'},
+  {id:7, name:'Παπάφη', en:'Papafi'},
+  {id:8, name:'Ευκλείδης', en:'Efklidis'},
+  {id:9, name:'Φλέμινγκ', en:'Fleming'},
+  {id:10, name:'Ανάληψη', en:'Analipsi'},
+  {id:11, name:'25ης Μαρτίου', en:'25 Martiou'},
+  {id:12, name:'Βούλγαρη', en:'Voulgarı'},
+  {id:13, name:'Νέα Ελβετία', en:'Nea Elvetia'},
+];
+
+const OPEN_H = 5*60+30, CLOSE_H = 23*60+30, FREQ = 3.5;
+let metroData = null;
+let timerInterval = null;
+
+// Tab switching
+function switchTab(name, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  btn.classList.add('active');
+}
+
+// Time helpers
+function getNowMins() {
+  const n = new Date();
+  return n.getHours()*60 + n.getMinutes() + n.getSeconds()/60;
+}
+
+function fmt(date) {
+  return date.toLocaleTimeString('el-GR', {hour:'2-digit', minute:'2-digit'});
+}
+
+// Update next train display
+function updateTrain(isDisrupted) {
+  const now = getNowMins();
+  const isOpen = !isDisrupted && now >= OPEN_H && now <= CLOSE_H;
+  const dot = document.getElementById('statusDot');
+  const txt = document.getElementById('statusText');
+  const nextMin = document.getElementById('nextMin');
+  const nextUnit = document.getElementById('nextUnit');
+  const nextTime = document.getElementById('nextTime');
+  const nextDir = document.getElementById('nextDir');
+  const cdWrap = document.getElementById('countdownWrap');
+
+  if (isDisrupted) {
+    dot.className = 'dot off pulse';
+    txt.textContent = 'Εκτός λειτουργίας';
+    nextMin.textContent = '—';
+    nextUnit.textContent = 'Προσωρινή διακοπή';
+    nextTime.textContent = '19/6';
+    nextDir.textContent = 'Επανεκκίνηση';
+    cdWrap.style.display = 'block';
+    updateCountdown();
+  } else if (isOpen) {
+    dot.className = 'dot ok';
+    txt.textContent = 'Σε λειτουργία';
+    cdWrap.style.display = 'none';
+    const minsSince = now - OPEN_H;
+    const toNext = FREQ - (minsSince % FREQ);
+    const mins = Math.floor(toNext);
+    const secs = Math.floor((toNext - mins) * 60);
+    nextMin.textContent = mins > 0 ? mins : secs;
+    nextUnit.textContent = mins > 0 ? 'λεπτά' : 'δευτερόλεπτα';
+    const arr = new Date();
+    arr.setSeconds(arr.getSeconds() + Math.floor(toNext * 60));
+    nextTime.textContent = fmt(arr);
+    nextDir.textContent = 'Επόμενη άφιξη';
+  } else {
+    dot.className = 'dot off';
+    txt.textContent = 'Κλειστό';
+    cdWrap.style.display = 'none';
+    nextMin.textContent = '—';
+    nextUnit.textContent = 'Εκτός ωραρίου';
+    nextTime.textContent = now < OPEN_H ? '05:30' : '05:30↑';
+    nextDir.textContent = now < OPEN_H ? 'Ανοίγει σήμερα' : 'Ανοίγει αύριο';
+  }
+}
+
+function updateCountdown() {
+  const target = new Date('2026-06-19T05:30:00');
+  const now = new Date();
+  const diff = Math.max(0, target - now);
+  const days = Math.floor(diff/86400000);
+  const hours = Math.floor((diff%86400000)/3600000);
+  const mins = Math.floor((diff%3600000)/60000);
+  const secs = Math.floor((diff%60000)/1000);
+  document.getElementById('countdown').innerHTML = `
+    <div class="cd-box"><div class="cd-num">${days}</div><div class="cd-lbl">μέρες</div></div>
+    <div class="cd-box"><div class="cd-num">${String(hours).padStart(2,'0')}</div><div class="cd-lbl">ώρες</div></div>
+    <div class="cd-box"><div class="cd-num">${String(mins).padStart(2,'0')}</div><div class="cd-lbl">λεπτά</div></div>
+    <div class="cd-box"><div class="cd-num">${String(secs).padStart(2,'0')}</div><div class="cd-lbl">δευτ</div></div>
+  `;
+}
+
+// Render stations
+function renderStations(elevators) {
+  const el = document.getElementById('stationList');
+  el.innerHTML = STATIONS.map(s => {
+    const elevOk = elevators ? elevators[s.name] !== false : true;
+    return `<div class="station">
+      <div class="stn-num">${s.id}</div>
+      <div style="flex:1">
+        <div class="stn-name">${s.name}</div>
+        <div class="stn-name-en">${s.en}</div>
+      </div>
+      <div class="stn-icons">
+        <span title="Ανελκυστήρας" class="${elevOk ? '' : 'elevator-off'}">⬆</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Render news
+function renderNews(news) {
+  const el = document.getElementById('newsList');
+  if (!news || news.length === 0) {
+    el.innerHTML = '<div style="font-size:13px;color:var(--muted);padding:8px 0">Δεν βρέθηκαν νέα.</div>';
+    return;
+  }
+  el.innerHTML = news.map(n => `
+    <div class="news-item" onclick="window.open('${n.url}','_blank')">
+      <div class="news-title">${n.title}</div>
+      <div class="news-date">${n.date}</div>
+    </div>
+  `).join('');
+}
+
+// Load data from GitHub JSON
+async function loadData() {
+  try {
+    const r = await fetch(JSON_URL + '?t=' + Date.now());
+    const data = await r.json();
+    metroData = data;
+    const isDisrupted = data.status?.is_disrupted || false;
+    if (isDisrupted && data.status?.announcement) {
+      const bar = document.getElementById('alertBar');
+      document.getElementById('alertText').textContent = data.status.announcement;
+      bar.classList.remove('hidden');
+    }
+    renderStations(data.elevators);
+    renderNews(data.news);
+    updateTrain(isDisrupted);
+    // refresh every 10 sec
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      updateTrain(isDisrupted);
+      if (isDisrupted) updateCountdown();
+    }, 1000);
+  } catch(e) {
+    console.error('Failed to load metro data:', e);
+    // fallback με hardcoded
+    renderStations({});
+    renderNews([]);
+    updateTrain(true); // assume disrupted if can't load
+  }
+}
+
+// Init
+renderStations({});
+loadData();
+// Reload data every 5 minutes
+setInterval(loadData, 5 * 60 * 1000);
+
+// Register Service Worker
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js').catch(console.error);
+}
+</script>
+</body>
+</html>
