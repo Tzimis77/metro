@@ -1,5 +1,5 @@
 {
-  "background_color": "#0d1f3c",
+  "background_color": "#0d13fc",
   "description": "Μετρό Θεσσαλονίκης — ωράρια, σταθμοί, live status",
   "dir": "ltr",
   "display": "standalone",
@@ -7,11 +7,11 @@
   "orientation": "any",
   "scope": "/",
   "short_name": "Μετρό ΘΕΣ",
-  "start_url": "/**`/metro/`**",
-  "theme_color": "#0d1f3c",
+  "start_url": "/",
+  "theme_color": "rgb(13, 31, 60)",
   "icons": [
     {
-      "src": "https://tzimis77.github.io/icons/icon-192.png",
+      "src": "https://metro.smartbots.gr/icons/icon-192.png",
       "isSquare": false,
       "isPng": true,
       "isWebp": false,
@@ -22,6 +22,5 @@
       "is192x192": false
     }
   ],
-  "id": "com.metrothes.app",
-  "lang": "en"
+  "id": "com.smartbots.metrothes"
 }
