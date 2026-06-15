@@ -288,7 +288,7 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
 </div>
 
 <script>
-const JSON_URL = 'https://raw.githubusercontent.com/Tzimis77/metro/main/public/metro_status.json';
+const JSON_URL = 'https://api.smartbots.gr/metro/status';
 const STATIONS = [
   {id:1, name:'Νέος Σιδηροδρομικός Σταθμός', en:'New Railway Station'},
   {id:2, name:'Δημοκρατίας', en:'Dimokratias'},
@@ -306,6 +306,9 @@ const STATIONS = [
 ];
 
 const OPEN_H = 5*60+30, CLOSE_H = 23*60+30, FREQ = 3.5;
+// Hardcoded disruption until June 19 2026
+const DISRUPTION_END = new Date('2026-06-19T05:30:00');
+const IS_DISRUPTED_NOW = new Date() < DISRUPTION_END;
 let metroData = null;
 let timerInterval = null;
 
@@ -428,8 +431,8 @@ async function loadData() {
     const r = await fetch(JSON_URL + '?t=' + Date.now());
     const data = await r.json();
     metroData = data;
-    const isDisrupted = data.status?.is_disrupted || false;
-    if (isDisrupted && data.status?.announcement) {
+    const isDisrupted = IS_DISRUPTED_NOW || data.status?.is_disrupted || false;
+    if (isDisrupted) { data.status = data.status || {}; data.status.announcement = data.status.announcement || 'Προσωρινή διακοπή επιβατικής λειτουργίας έως 19 Ιουνίου 2026 λόγω δοκιμών επέκτασης προς Καλαμαριά.'; } if (isDisrupted && data.status?.announcement) {
       const bar = document.getElementById('alertBar');
       document.getElementById('alertText').textContent = data.status.announcement;
       bar.classList.remove('hidden');
@@ -448,7 +451,7 @@ async function loadData() {
     // fallback με hardcoded
     renderStations({});
     renderNews([]);
-    updateTrain(true); // assume disrupted if can't load
+    updateTrain(IS_DISRUPTED_NOW);
   }
 }
 
