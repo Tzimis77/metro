@@ -1,8 +1,8 @@
 {
-  "name": "Μετρό Θεσσαλονίκης",
-  "short_name": "Μετρό ΘΕΣ",
+  "name": "Metro Thessaloniki",
+  "short_name": "Metro Thes",
   "id": "com.smartbots.metrothes",
-  "description": "Ωράρια, σταθμοί και live status για το Μετρό Θεσσαλονίκης",
+  "description": "Schedules, stations and live status for Thessaloniki Metro",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
