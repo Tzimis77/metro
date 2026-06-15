@@ -1,0 +1,107 @@
+{
+  "scraped_at": "2026-06-15T17:11:32.497193+00:00",
+  "status": {
+    "is_disrupted": false,
+    "announcement": ""
+  },
+  "elevators": {},
+  "news": [],
+  "stations": [
+    {
+      "id": 1,
+      "name": "Νέος Σιδηροδρομικός Σταθμός",
+      "name_en": "New Railway Station"
+    },
+    {
+      "id": 2,
+      "name": "Δημοκρατίας",
+      "name_en": "Dimokratias"
+    },
+    {
+      "id": 3,
+      "name": "Βενιζέλου",
+      "name_en": "Venizelou"
+    },
+    {
+      "id": 4,
+      "name": "Αγίας Σοφίας",
+      "name_en": "Agias Sofias"
+    },
+    {
+      "id": 5,
+      "name": "Σιντριβάνι",
+      "name_en": "Sintrivani"
+    },
+    {
+      "id": 6,
+      "name": "Πανεπιστήμιο",
+      "name_en": "Panepistimio"
+    },
+    {
+      "id": 7,
+      "name": "Παπάφη",
+      "name_en": "Papafi"
+    },
+    {
+      "id": 8,
+      "name": "Ευκλείδης",
+      "name_en": "Efklidis"
+    },
+    {
+      "id": 9,
+      "name": "Φλέμινγκ",
+      "name_en": "Fleming"
+    },
+    {
+      "id": 10,
+      "name": "Ανάληψη",
+      "name_en": "Analipsi"
+    },
+    {
+      "id": 11,
+      "name": "25ης Μαρτίου",
+      "name_en": "25 Martiou"
+    },
+    {
+      "id": 12,
+      "name": "Βούλγαρη",
+      "name_en": "Voulgarı"
+    },
+    {
+      "id": 13,
+      "name": "Νέα Ελβετία",
+      "name_en": "Nea Elvetia"
+    }
+  ],
+  "tickets": {
+    "single_normal": 0.6,
+    "single_reduced": 0.3,
+    "daily_normal": 2.5,
+    "bundle_11_normal": 5.8,
+    "bundle_11_reduced": 2.9,
+    "card_30d": {
+      "normal": 16.0,
+      "reduced": 8.0
+    },
+    "card_90d": {
+      "normal": 45.0,
+      "reduced": 22.5
+    },
+    "card_180d": {
+      "normal": 85.0,
+      "reduced": 42.5
+    }
+  },
+  "schedule": {
+    "weekday": {
+      "first": "05:30",
+      "last": "23:30"
+    },
+    "weekend": {
+      "first": "06:00",
+      "last": "23:30"
+    },
+    "frequency_min": 3.5,
+    "end_to_end_min": 16
+  }
+}
