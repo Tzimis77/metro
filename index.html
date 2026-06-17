@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="el">
 <head>
-<link rel="manifest" href="/manifest.json">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0d1f3c">
@@ -9,6 +8,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Μετρό ΘΕΣ">
 <meta name="description" content="Μετρό Θεσσαλονίκης — ωράρια, σταθμοί, live status">
+<link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="icons/icon-192.png">
 <title>Μετρό Θεσσαλονίκης</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -255,10 +255,21 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
         <div class="sched-row"><span class="sched-key">25ης Μαρτίου</span><span class="sched-val" style="color:var(--green)">✓</span></div>
         <div class="sched-row"><span class="sched-key">Νέα Ελβετία</span><span class="sched-val" style="color:var(--green)">✓</span></div>
       </div>
+      <div class="section" style="padding-top:0">
+        <div class="section-label">Στήριξε την εφαρμογή</div>
+        <a href="https://buy.stripe.com/fZu8wQ0wT3MZf3s6Dv8EM00" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card);border:0.5px solid rgba(240,192,64,0.3);border-radius:12px;padding:14px;text-decoration:none;color:var(--gold);font-size:14px;font-weight:500">
+          ☕ Κέρασέ μας έναν καφέ
+        </a>
+        <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px">
+          Προαιρετική δωρεά για τη συντήρηση της εφαρμογής
+        </div>
+      </div>
+
       <div class="section" style="padding-top:0;text-align:center">
         <div style="font-size:11px;color:var(--muted);line-height:1.6">
           Δεδομένα από thessmetro.gr<br>
-          Ενημέρωση κάθε 30 λεπτά
+          Ενημέρωση χειροκίνητα<br>
+          Made by <a href="https://smartbots.gr" target="_blank" style="color:var(--gold)">SmartBots.gr</a>
         </div>
       </div>
     </div>
