@@ -408,7 +408,7 @@ function renderStations(elevators) {
   const el = document.getElementById('stationList');
   el.innerHTML = STATIONS.map(s => {
     const elevOk = elevators ? elevators[s.name] !== false : true;
-    return `<div class="station" onclick="openStationMap(${s.lat},${s.lng},'${s.name.replace(/'/g,"\\'")}')" style="cursor:pointer">
+    return `<div class="station" data-lat="${s.lat}" data-lng="${s.lng}" style="cursor:pointer">
       <div class="stn-num">${s.id}</div>
       <div style="flex:1">
         <div class="stn-name">${s.name}</div>
@@ -420,11 +420,16 @@ function renderStations(elevators) {
       </div>
     </div>`;
   }).join('');
-}
 
-function openStationMap(lat, lng, name) {
-  const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-  window.open(url, '_blank');
+  // Event delegation — πιο αξιόπιστο από inline onclick
+  el.querySelectorAll('.station').forEach(card => {
+    card.addEventListener('click', () => {
+      const lat = card.getAttribute('data-lat');
+      const lng = card.getAttribute('data-lng');
+      const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+      window.open(url, '_blank');
+    });
+  });
 }
 
 // Render news
