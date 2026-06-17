@@ -269,7 +269,7 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
         <div style="font-size:11px;color:var(--muted);line-height:1.6">
           Δεδομένα από thessmetro.gr<br>
           Ενημέρωση χειροκίνητα<br>
-          Made by <a href="https://smartbots.gr/smartbots-lyseis" target="_blank" style="color:var(--gold)">SmartBots.gr/smartbots-lyseis</a>
+          Made by <a href="https://smartbots.gr" target="_blank" style="color:var(--gold)">SmartBots.gr</a>
         </div>
       </div>
     </div>
@@ -301,19 +301,19 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
 <script>
 const JSON_URL = 'https://api.smartbots.gr/metro/status';
 const STATIONS = [
-  {id:1, name:'Νέος Σιδηροδρομικός Σταθμός', en:'New Railway Station'},
-  {id:2, name:'Δημοκρατίας', en:'Dimokratias'},
-  {id:3, name:'Βενιζέλου', en:'Venizelou'},
-  {id:4, name:'Αγίας Σοφίας', en:'Agias Sofias'},
-  {id:5, name:'Σιντριβάνι', en:'Sintrivani'},
-  {id:6, name:'Πανεπιστήμιο', en:'Panepistimio'},
-  {id:7, name:'Παπάφη', en:'Papafi'},
-  {id:8, name:'Ευκλείδης', en:'Efklidis'},
-  {id:9, name:'Φλέμινγκ', en:'Fleming'},
-  {id:10, name:'Ανάληψη', en:'Analipsi'},
-  {id:11, name:'25ης Μαρτίου', en:'25 Martiou'},
-  {id:12, name:'Βούλγαρη', en:'Voulgarı'},
-  {id:13, name:'Νέα Ελβετία', en:'Nea Elvetia'},
+  {id:1, name:'Νέος Σιδηροδρομικός Σταθμός', en:'New Railway Station', lat:40.6438924, lng:22.9284775},
+  {id:2, name:'Δημοκρατίας', en:'Dimokratias', lat:40.6406651, lng:22.9349011},
+  {id:3, name:'Βενιζέλου', en:'Venizelou', lat:40.633807, lng:22.939305},
+  {id:4, name:'Αγίας Σοφίας', en:'Agias Sofias', lat:40.6341768, lng:22.9464037},
+  {id:5, name:'Σιντριβάνι', en:'Sintrivani', lat:40.6307778, lng:22.9544722},
+  {id:6, name:'Πανεπιστήμιο', en:'Panepistimio', lat:40.625942, lng:22.960419},
+  {id:7, name:'Παπάφη', en:'Papafi', lat:40.6195556, lng:22.9628056},
+  {id:8, name:'Ευκλείδης', en:'Efklidis', lat:40.6160582, lng:22.9611423},
+  {id:9, name:'Φλέμινγκ', en:'Fleming', lat:40.6117222, lng:22.9575556},
+  {id:10, name:'Ανάληψη', en:'Analipsi', lat:40.6060278, lng:22.9581111},
+  {id:11, name:'25ης Μαρτίου', en:'25 Martiou', lat:40.6014753, lng:22.9619007},
+  {id:12, name:'Βούλγαρη', en:'Voulgarı', lat:40.5967175, lng:22.96409},
+  {id:13, name:'Νέα Ελβετία', en:'Nea Elvetia', lat:40.5929885, lng:22.9694043},
 ];
 
 const OPEN_H = 5*60+30, CLOSE_H = 23*60+30, FREQ = 3.5;
@@ -408,7 +408,7 @@ function renderStations(elevators) {
   const el = document.getElementById('stationList');
   el.innerHTML = STATIONS.map(s => {
     const elevOk = elevators ? elevators[s.name] !== false : true;
-    return `<div class="station">
+    return `<div class="station" onclick="openStationMap(${s.lat},${s.lng},'${s.name.replace(/'/g,"\\'")}')" style="cursor:pointer">
       <div class="stn-num">${s.id}</div>
       <div style="flex:1">
         <div class="stn-name">${s.name}</div>
@@ -416,9 +416,15 @@ function renderStations(elevators) {
       </div>
       <div class="stn-icons">
         <span title="Ανελκυστήρας" class="${elevOk ? '' : 'elevator-off'}">⬆</span>
+        <span title="Χάρτης">📍</span>
       </div>
     </div>`;
   }).join('');
+}
+
+function openStationMap(lat, lng, name) {
+  const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
+  window.open(url, '_blank');
 }
 
 // Render news
