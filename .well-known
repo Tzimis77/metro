@@ -1,8 +1,0 @@
-[{
-  "relation": ["delegate_permission/common.handle_all_urls"],
-  "target": {
-    "namespace": "android_app",
-    "package_name": "com.smartbots.metrothes",
-    "sha256_cert_fingerprints": ["57:1D:98:53:49:74:8A:7D:E5:F7:68:C5:95:2A:1B:87:0A:8C:B1:60:47:3A:CB:25:1F:A5:FD:40:94:DC:2A:93"]
-  }
-}]
