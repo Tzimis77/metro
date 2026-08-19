@@ -39,14 +39,10 @@
   --safe-bot:env(safe-area-inset-bottom,0px);
 }
 html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;overflow:hidden}
-
-/* LAYOUT */
 .app{display:flex;flex-direction:column;height:100%;height:100dvh}
 .header{background:var(--navy);padding:calc(var(--safe-top) + 14px) 20px 0;flex-shrink:0}
 .content{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:calc(var(--safe-bot) + 70px)}
 .tabs-bar{position:fixed;bottom:0;left:0;right:0;background:var(--navy);border-top:0.5px solid var(--border);padding-bottom:var(--safe-bot);display:flex;z-index:100}
-
-/* HEADER */
 .header-inner{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px}
 .logo-line{font-size:11px;letter-spacing:0.12em;color:var(--muted);text-transform:uppercase;margin-bottom:3px}
 .logo-name{font-size:24px;font-weight:600;letter-spacing:-0.5px;color:var(--white)}
@@ -57,8 +53,6 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
 .dot.off{background:var(--red);box-shadow:0 0 6px var(--red)}
 .dot.pulse{animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
-
-/* NEXT TRAIN CARD */
 .next-card{background:var(--navy3);border:0.5px solid var(--border);border-radius:16px;padding:16px 18px;margin-bottom:4px;display:flex;align-items:center;justify-content:space-between}
 .next-label{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:4px}
 .next-big{font-size:42px;font-weight:300;font-family:'DM Mono',monospace;color:var(--gold);line-height:1}
@@ -67,17 +61,11 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
 .next-time{font-size:20px;font-weight:500;font-family:'DM Mono',monospace}
 .next-dir{font-size:12px;color:var(--muted);margin-top:2px}
 .freq-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(240,192,64,0.1);border:0.5px solid rgba(240,192,64,0.3);border-radius:20px;padding:4px 10px;font-size:11px;color:var(--gold);margin-top:8px}
-
-/* ALERT BAR */
 .alert{background:rgba(231,76,60,0.12);border:0.5px solid rgba(231,76,60,0.3);border-radius:12px;padding:12px 14px;margin:12px 16px 0;display:flex;gap:10px;align-items:flex-start;font-size:13px;line-height:1.5;color:#f5a49a}
 .alert svg{flex-shrink:0;margin-top:1px}
 .alert.hidden{display:none}
-
-/* SECTION */
 .section{padding:16px}
 .section-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);margin-bottom:10px;font-weight:500}
-
-/* STATION LIST */
 .station{display:flex;align-items:center;gap:12px;padding:11px 0;border-bottom:0.5px solid var(--border)}
 .station:last-child{border-bottom:none}
 .stn-num{width:26px;height:26px;border-radius:50%;background:var(--navy3);border:1.5px solid var(--navy3);font-size:11px;font-weight:600;font-family:'DM Mono',monospace;color:var(--gold);display:flex;align-items:center;justify-content:center;flex-shrink:0}
@@ -85,54 +73,36 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
 .stn-name-en{font-size:11px;color:var(--muted);margin-top:1px}
 .stn-icons{display:flex;gap:6px;color:var(--muted);font-size:13px}
 .elevator-off{color:var(--red)!important}
-
-/* SCHEDULE */
 .sched-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:0.5px solid var(--border)}
 .sched-row:last-child{border-bottom:none}
 .sched-key{font-size:13px;color:var(--muted)}
 .sched-val{font-size:13px;font-weight:500;font-family:'DM Mono',monospace;color:var(--white)}
-
-/* TICKETS */
 .ticket-card{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px}
 .ticket-name{font-size:13px;color:var(--muted);margin-bottom:6px}
 .ticket-row{display:flex;justify-content:space-between;align-items:baseline}
 .ticket-price{font-size:22px;font-weight:500;font-family:'DM Mono',monospace;color:var(--gold)}
 .ticket-reduced{font-size:13px;color:var(--muted)}
-
-/* NEWS */
 .news-item{background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:14px;margin-bottom:8px;cursor:pointer;transition:background 0.15s}
 .news-item:active{background:var(--navy3)}
 .news-title{font-size:14px;font-weight:500;line-height:1.4;margin-bottom:4px}
 .news-date{font-size:11px;color:var(--muted)}
-
-/* COUNTDOWN */
 .countdown{display:flex;gap:8px;margin-bottom:14px}
 .cd-box{flex:1;background:var(--card);border-radius:10px;padding:10px;text-align:center;border:0.5px solid var(--border)}
 .cd-num{font-size:24px;font-weight:500;font-family:'DM Mono',monospace;color:var(--gold)}
 .cd-lbl{font-size:10px;color:var(--muted);margin-top:2px;text-transform:uppercase;letter-spacing:0.06em}
-
-/* BOTTOM NAV */
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 0;background:none;border:none;color:var(--muted);cursor:pointer;font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:0.04em;transition:color 0.15s}
 .tab-btn.active{color:var(--gold)}
 .tab-btn svg{width:22px;height:22px;stroke-width:1.5}
-
-/* LOADING */
 .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;gap:12px;color:var(--muted);font-size:13px}
 .spinner{width:28px;height:28px;border:2px solid var(--border);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-
-/* PAGE TRANSITIONS */
 .page{display:none;animation:fadeIn 0.2s ease}
 .page.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-.header-pad{height:16px}
 </style>
 </head>
 <body>
 <div class="app">
-
-  <!-- HEADER -->
   <div class="header">
     <div class="header-inner">
       <div>
@@ -146,19 +116,14 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
     </div>
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
-
     <!-- PAGE: HOME -->
     <div class="page active" id="page-home">
       <div style="padding:16px 16px 0">
-        <!-- Alert -->
         <div class="alert hidden" id="alertBar">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <span id="alertText"></span>
         </div>
-
-        <!-- Next Train -->
         <div class="next-card" id="nextCard" style="margin-top:12px">
           <div>
             <div class="next-label">Επόμενο τρένο</div>
@@ -175,15 +140,11 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
             <div class="next-dir" id="nextDir"></div>
           </div>
         </div>
-
-        <!-- Countdown if disrupted -->
         <div id="countdownWrap" style="display:none;margin-top:12px">
           <div class="section-label">Επανεκκίνηση σε</div>
           <div class="countdown" id="countdown"></div>
         </div>
       </div>
-
-      <!-- Quick stats -->
       <div class="section" style="padding-top:14px">
         <div class="section-label">Γρήγορη πληροφορία</div>
         <div class="sched-row"><span class="sched-key">Γραμμές</span><span class="sched-val">1</span></div>
@@ -192,8 +153,6 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
         <div class="sched-row"><span class="sched-key">Διαδρομή άκρο-άκρο</span><span class="sched-val">~16 λεπτά</span></div>
         <div class="sched-row"><span class="sched-key">Operator</span><span class="sched-val">ΘΕΜΑ</span></div>
       </div>
-
-      <!-- News -->
       <div class="section" style="padding-top:0">
         <div class="section-label">Τελευταία νέα</div>
         <div id="newsList"><div class="loading"><div class="spinner"></div><span>Φόρτωση νέων...</span></div></div>
@@ -218,33 +177,14 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
         <div class="sched-row"><span class="sched-key">Σαββ–Κυρ τελευταίο</span><span class="sched-val">23:30</span></div>
         <div class="sched-row"><span class="sched-key">Συχνότητα</span><span class="sched-val">3.5 λεπτά</span></div>
       </div>
-
       <div class="section" style="padding-top:0">
         <div class="section-label">Εισιτήρια</div>
-        <div class="ticket-card">
-          <div class="ticket-name">Απλό εισιτήριο</div>
-          <div class="ticket-row"><span class="ticket-price">€0.60</span><span class="ticket-reduced">Μειωμένο €0.30</span></div>
-        </div>
-        <div class="ticket-card">
-          <div class="ticket-name">Ημερήσιο</div>
-          <div class="ticket-row"><span class="ticket-price">€2.50</span><span class="ticket-reduced">Απεριόριστες διαδρομές</span></div>
-        </div>
-        <div class="ticket-card">
-          <div class="ticket-name">Δέσμη 10+1</div>
-          <div class="ticket-row"><span class="ticket-price">€5.80</span><span class="ticket-reduced">Μειωμένο €2.90</span></div>
-        </div>
-        <div class="ticket-card">
-          <div class="ticket-name">Κάρτα 30 ημερών</div>
-          <div class="ticket-row"><span class="ticket-price">€16.00</span><span class="ticket-reduced">Μειωμένο €8.00</span></div>
-        </div>
-        <div class="ticket-card">
-          <div class="ticket-name">Κάρτα 90 ημερών</div>
-          <div class="ticket-row"><span class="ticket-price">€45.00</span><span class="ticket-reduced">Μειωμένο €22.50</span></div>
-        </div>
-        <div class="ticket-card">
-          <div class="ticket-name">Κάρτα 180 ημερών</div>
-          <div class="ticket-row"><span class="ticket-price">€85.00</span><span class="ticket-reduced">Μειωμένο €42.50</span></div>
-        </div>
+        <div class="ticket-card"><div class="ticket-name">Απλό εισιτήριο</div><div class="ticket-row"><span class="ticket-price">€0.60</span><span class="ticket-reduced">Μειωμένο €0.30</span></div></div>
+        <div class="ticket-card"><div class="ticket-name">Ημερήσιο</div><div class="ticket-row"><span class="ticket-price">€2.50</span><span class="ticket-reduced">Απεριόριστες διαδρομές</span></div></div>
+        <div class="ticket-card"><div class="ticket-name">Δέσμη 10+1</div><div class="ticket-row"><span class="ticket-price">€5.80</span><span class="ticket-reduced">Μειωμένο €2.90</span></div></div>
+        <div class="ticket-card"><div class="ticket-name">Κάρτα 30 ημερών</div><div class="ticket-row"><span class="ticket-price">€16.00</span><span class="ticket-reduced">Μειωμένο €8.00</span></div></div>
+        <div class="ticket-card"><div class="ticket-name">Κάρτα 90 ημερών</div><div class="ticket-row"><span class="ticket-price">€45.00</span><span class="ticket-reduced">Μειωμένο €22.50</span></div></div>
+        <div class="ticket-card"><div class="ticket-name">Κάρτα 180 ημερών</div><div class="ticket-row"><span class="ticket-price">€85.00</span><span class="ticket-reduced">Μειωμένο €42.50</span></div></div>
       </div>
     </div>
 
@@ -263,13 +203,15 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
         <div class="sched-row"><span class="sched-key">25ης Μαρτίου</span><span class="sched-val" style="color:var(--green)">✓</span></div>
         <div class="sched-row"><span class="sched-key">Νέα Ελβετία</span><span class="sched-val" style="color:var(--green)">✓</span></div>
       </div>
+
+      <!-- TON QR DONATION -->
       <div class="section" style="padding-top:0">
         <div class="section-label">Στήριξε την εφαρμογή</div>
-        <a href="https://buy.stripe.com/fZu8wQ0wT3MZf3s6Dv8EM00" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--card);border:0.5px solid rgba(240,192,64,0.3);border-radius:12px;padding:14px;text-decoration:none;color:var(--gold);font-size:14px;font-weight:500">
-          ☕ Κέρασέ μας έναν καφέ
-        </a>
-        <div style="font-size:11px;color:var(--muted);text-align:center;margin-top:8px">
-          Προαιρετική δωρεά για τη συντήρηση της εφαρμογής
+        <div style="background:var(--card);border:0.5px solid var(--border);border-radius:12px;padding:16px;text-align:center">
+          <div style="font-size:13px;color:var(--muted);margin-bottom:12px">☕ Δωρεά σε USDT (TON Network)</div>
+          <img src="/icons/TON_MEXC.png" alt="TON QR Code" style="width:160px;height:160px;border-radius:8px;display:block;margin:0 auto 12px">
+          <div style="font-size:10px;color:var(--muted);word-break:break-all;padding:8px;background:rgba(255,255,255,0.04);border-radius:6px;font-family:monospace;line-height:1.5">UQBaDlQBBECFfJBs3z9zGU4qVrztvbLzBrsG5ClN8y9Wt66C</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:8px">Μόνο USDT στο TON Network</div>
         </div>
       </div>
 
@@ -277,14 +219,12 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
         <div style="font-size:11px;color:var(--muted);line-height:1.6">
           Δεδομένα από thessmetro.gr<br>
           Ενημέρωση χειροκίνητα<br>
-          Made by <a href="http://www.smartbots.gr" target="_blank" style="color:var(--gold)">SmartBots.gr</a>
+          Made by <a href="https://smartbots.gr" target="_blank" style="color:var(--gold)">SmartBots.gr</a>
         </div>
       </div>
     </div>
+  </div>
 
-  </div><!-- /content -->
-
-  <!-- BOTTOM NAV -->
   <div class="tabs-bar">
     <button class="tab-btn active" onclick="switchTab('home',this)">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -303,7 +243,6 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
       Πληροφορίες
     </button>
   </div>
-
 </div>
 
 <script>
@@ -325,11 +264,9 @@ const STATIONS = [
 ];
 
 const OPEN_H = 5*60+30, CLOSE_H = 23*60+30, FREQ = 3.5;
-// Disruption status now comes entirely from the API (no hardcoded override)
 let metroData = null;
 let timerInterval = null;
 
-// Tab switching
 function switchTab(name, btn) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -337,7 +274,6 @@ function switchTab(name, btn) {
   btn.classList.add('active');
 }
 
-// Time helpers
 function getNowMins() {
   const n = new Date();
   return n.getHours()*60 + n.getMinutes() + n.getSeconds()/60;
@@ -347,7 +283,6 @@ function fmt(date) {
   return date.toLocaleTimeString('el-GR', {hour:'2-digit', minute:'2-digit'});
 }
 
-// Update next train display
 function updateTrain(isDisrupted) {
   const now = getNowMins();
   const isOpen = !isDisrupted && now >= OPEN_H && now <= CLOSE_H;
@@ -364,7 +299,7 @@ function updateTrain(isDisrupted) {
     txt.textContent = 'Εκτός λειτουργίας';
     nextMin.textContent = '—';
     nextUnit.textContent = 'Προσωρινή διακοπή';
-    nextTime.textContent = '19/6';
+    nextTime.textContent = '—';
     nextDir.textContent = 'Επανεκκίνηση';
     cdWrap.style.display = 'block';
     updateCountdown();
@@ -409,7 +344,6 @@ function updateCountdown() {
   `;
 }
 
-// Render stations
 function renderStations(elevators) {
   const el = document.getElementById('stationList');
   el.innerHTML = STATIONS.map(s => {
@@ -427,18 +361,15 @@ function renderStations(elevators) {
     </div>`;
   }).join('');
 
-  // Event delegation — πιο αξιόπιστο από inline onclick
   el.querySelectorAll('.station').forEach(card => {
     card.addEventListener('click', () => {
       const lat = card.getAttribute('data-lat');
       const lng = card.getAttribute('data-lng');
-      const url = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
-      window.open(url, '_blank');
+      window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank');
     });
   });
 }
 
-// Render news
 function renderNews(news) {
   const el = document.getElementById('newsList');
   if (!news || news.length === 0) {
@@ -453,14 +384,13 @@ function renderNews(news) {
   `).join('');
 }
 
-// Load data from GitHub JSON
 async function loadData() {
   try {
     const r = await fetch(JSON_URL + '?t=' + Date.now());
     const data = await r.json();
     metroData = data;
     const isDisrupted = data.status?.is_disrupted || false;
-    if (isDisrupted) { data.status = data.status || {}; data.status.announcement = data.status.announcement || 'Προσωρινή διακοπή επιβατικής λειτουργίας έως 19 Ιουνίου 2026 λόγω δοκιμών επέκτασης προς Καλαμαριά.'; } if (isDisrupted && data.status?.announcement) {
+    if (isDisrupted && data.status?.announcement) {
       const bar = document.getElementById('alertBar');
       document.getElementById('alertText').textContent = data.status.announcement;
       bar.classList.remove('hidden');
@@ -468,7 +398,6 @@ async function loadData() {
     renderStations(data.elevators);
     renderNews(data.news);
     updateTrain(isDisrupted);
-    // refresh every 10 sec
     clearInterval(timerInterval);
     timerInterval = setInterval(() => {
       updateTrain(isDisrupted);
@@ -476,20 +405,16 @@ async function loadData() {
     }, 1000);
   } catch(e) {
     console.error('Failed to load metro data:', e);
-    // fallback με hardcoded
     renderStations({});
     renderNews([]);
     updateTrain(false);
   }
 }
 
-// Init
 renderStations({});
 loadData();
-// Reload data every 5 minutes
 setInterval(loadData, 5 * 60 * 1000);
 
-// Register Service Worker
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/sw.js').catch(console.error);
 }
