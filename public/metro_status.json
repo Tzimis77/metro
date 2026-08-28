@@ -1,3 +1,4 @@
+
 {
   "scraped_at": "2026-08-07T05:26:30.568934+00:00",
   "status": {
@@ -104,4 +105,7 @@
     "frequency_min": 3.5,
     "end_to_end_min": 16
   }
-}
+}{"id": 14, "name": "Καλαμαριά",  "name_en": "Kalamaria"},
+{"id": 15, "name": "Αρετσού",    "name_en": "Aretsou"},
+{"id": 16, "name": "Νέα Κρήνη", "name_en": "Nea Krini"},
+{"id": 17, name": "Μίκρα",      "name_en": "Mikra"},
