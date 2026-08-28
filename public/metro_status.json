@@ -68,12 +68,11 @@
       "name": "Βούλγαρη",
       "name_en": "Voulgarı"
     },
-    {
-      "id": 13,
-      "name": "Νέα Ελβετία",
-      "name_en": "Nea Elvetia"
-    }
-  ],
+    {"id": 13, "name": "Νέα Ελβετία", "name_en": "Nea Elvetia"},
+    {"id": 14, "name": "Καλαμαριά",   "name_en": "Kalamaria"},
+    {"id": 15, "name": "Αρετσού",     "name_en": "Aretsou"},
+    {"id": 16, "name": "Νέα Κρήνη",  "name_en": "Nea Krini"},
+    {"id": 17, "name": "Μίκρα",       "name_en": "Mikra"},  ],
   "tickets": {
     "single_normal": 0.6,
     "single_reduced": 0.3,
