@@ -239,24 +239,85 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
 <script>
 const JSON_URL = 'https://api.smartbots.gr/metro/status';
 const STATIONS = [
-  {id:1, name:'Νέος Σιδηροδρομικός Σταθμός', en:'New Railway Station', lat:40.6438924, lng:22.9284775},
-  {id:2, name:'Δημοκρατίας', en:'Dimokratias', lat:40.6406651, lng:22.9349011},
-  {id:3, name:'Βενιζέλου', en:'Venizelou', lat:40.633807, lng:22.939305},
-  {id:4, name:'Αγίας Σοφίας', en:'Agias Sofias', lat:40.6341768, lng:22.9464037},
-  {id:5, name:'Σιντριβάνι', en:'Sintrivani', lat:40.6307778, lng:22.9544722},
-  {id:6, name:'Πανεπιστήμιο', en:'Panepistimio', lat:40.625942, lng:22.960419},
-  {id:7, name:'Παπάφη', en:'Papafi', lat:40.6195556, lng:22.9628056},
-  {id:8, name:'Ευκλείδης', en:'Efklidis', lat:40.6160582, lng:22.9611423},
-  {id:9, name:'Φλέμινγκ', en:'Fleming', lat:40.6117222, lng:22.9575556},
-  {id:10, name:'Ανάληψη', en:'Analipsi', lat:40.6060278, lng:22.9581111},
-  {id:11, name:'25ης Μαρτίου', en:'25 Martiou', lat:40.6014753, lng:22.9619007},
-  {id:12, name:'Βούλγαρη', en:'Voulgarı', lat:40.5967175, lng:22.96409},
-  {id:13, name:'Νέα Ελβετία', en:'Nea Elvetia', lat:40.5929885, lng:22.9694043},
-  {id:14, name:'Καλαμαριά', en:'Kalamaria', lat:40.5845, lng:22.9529},
-  {id:15, name:'Αρετσού', en:'Aretsou', lat:40.5782, lng:22.9548},
-  {id:16, name:'Νέα Κρήνη', en:'Nea Krini', lat:40.5723, lng:22.9611},
-  {id:17, name:'Μίκρα', en:'Mikra', lat:40.5660, lng:22.9680},
+  const STATIONS_M1 = [
+  {id:1,  name:'Νέος Σιδηροδρομικός Σταθμός', en:'New Railway Station', lat:40.6438924, lng:22.9284775},
+  {id:2,  name:'Δημοκρατίας',                  en:'Dimokratias',         lat:40.6406651, lng:22.9349011},
+  {id:3,  name:'Βενιζέλου',                    en:'Venizelou',           lat:40.633807,  lng:22.939305},
+  {id:4,  name:'Αγίας Σοφίας',                 en:'Agias Sofias',        lat:40.6341768, lng:22.9464037},
+  {id:5,  name:'Σιντριβάνι',                   en:'Sintrivani',          lat:40.6307778, lng:22.9544722},
+  {id:6,  name:'Πανεπιστήμιο',                 en:'Panepistimio',        lat:40.625942,  lng:22.960419},
+  {id:7,  name:'Παπάφη',                       en:'Papafi',              lat:40.6195556, lng:22.9628056},
+  {id:8,  name:'Ευκλείδης',                    en:'Efklidis',            lat:40.6160582, lng:22.9611423},
+  {id:9,  name:'Φλέμινγκ',                     en:'Fleming',             lat:40.6117222, lng:22.9575556},
+  {id:10, name:'Ανάληψη',                      en:'Analipsi',            lat:40.6060278, lng:22.9581111},
+  {id:11, name:'25ης Μαρτίου',                 en:'25 Martiou',          lat:40.6014753, lng:22.9619007, interchange:true},
+  {id:12, name:'Βούλγαρη',                     en:'Voulgarı',            lat:40.5967175, lng:22.96409},
+  {id:13, name:'Νέα Ελβετία',                  en:'Nea Elvetia',         lat:40.5929885, lng:22.9694043},
 ];
+
+const STATIONS_M2 = [
+  {id:11, name:'25ης Μαρτίου', en:'25 Martiou', lat:40.6014753, lng:22.9619007, interchange:true},
+  {id:14, name:'Καλαμαριά',    en:'Kalamaria',  lat:40.5845,    lng:22.9529},
+  {id:15, name:'Αρετσού',      en:'Aretsou',    lat:40.5782,    lng:22.9548},
+  {id:16, name:'Νέα Κρήνη',   en:'Nea Krini',  lat:40.5723,    lng:22.9611},
+  {id:17, name:'Μίκρα',        en:'Mikra',      lat:40.5660,    lng:22.9680},
+];
+
+<div class="page" id="page-stations">
+  <div class="section">
+    <div style="display:flex;gap:8px;margin-bottom:16px">
+      <button onclick="showLine('m1',this)" id="btn-m1" style="flex:1;padding:8px;background:var(--gold);color:var(--navy);border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer">Μ1</button>
+      <button onclick="showLine('m2',this)" id="btn-m2" style="flex:1;padding:8px;background:var(--card);color:var(--muted);border:0.5px solid var(--border);border-radius:8px;font-weight:600;font-size:13px;cursor:pointer">Μ2</button>
+    </div>
+    <div id="line-m1">
+      <div class="section-label">Γραμμή Μ1 — 13 σταθμοί</div>
+      <div id="stationList-m1"></div>
+    </div>
+    <div id="line-m2" style="display:none">
+      <div class="section-label">Γραμμή Μ2 — 5 σταθμοί (Καλαμαριά)</div>
+      <div id="stationList-m2"></div>
+    </div>
+  </div>
+</div>
+
+
+function showLine(line, btn) {
+  document.getElementById('line-m1').style.display = line==='m1' ? 'block' : 'none';
+  document.getElementById('line-m2').style.display = line==='m2' ? 'block' : 'none';
+  document.getElementById('btn-m1').style.background = line==='m1' ? 'var(--gold)' : 'var(--card)';
+  document.getElementById('btn-m1').style.color = line==='m1' ? 'var(--navy)' : 'var(--muted)';
+  document.getElementById('btn-m2').style.background = line==='m2' ? 'var(--gold)' : 'var(--card)';
+  document.getElementById('btn-m2').style.color = line==='m2' ? 'var(--navy)' : 'var(--muted)';
+}
+
+function renderStations(elevators) {
+  const render = (stations, elId) => {
+    const el = document.getElementById(elId);
+    el.innerHTML = stations.map(s => {
+      const elevOk = elevators ? elevators[s.name] !== false : true;
+      return `<div class="station" data-lat="${s.lat}" data-lng="${s.lng}" style="cursor:pointer">
+        <div class="stn-num">${s.id}</div>
+        <div style="flex:1">
+          <div class="stn-name">${s.name} ${s.interchange ? '🔀' : ''}</div>
+          <div class="stn-name-en">${s.en}${s.interchange ? ' · Μετεπιβίβαση' : ''}</div>
+        </div>
+        <div class="stn-icons">
+          <span title="Ανελκυστήρας" class="${elevOk ? '' : 'elevator-off'}">⬆</span>
+          <span title="Χάρτης">📍</span>
+        </div>
+      </div>`;
+    }).join('');
+    el.querySelectorAll('.station').forEach(card => {
+      card.addEventListener('click', () => {
+        const lat = card.getAttribute('data-lat');
+        const lng = card.getAttribute('data-lng');
+        window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank');
+      });
+    });
+  };
+  render(STATIONS_M1, 'stationList-m1');
+  render(STATIONS_M2, 'stationList-m2');
+}
 const OPEN_H = 5*60+30, CLOSE_H = 23*60+30, FREQ = 3.5;
 let metroData = null;
 let timerInterval = null;
