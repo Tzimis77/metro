@@ -24,19 +24,11 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --navy:#0d1f3c;
-  --navy2:#162d52;
-  --navy3:#1e3a68;
-  --gold:#f0c040;
-  --gold2:#e6a800;
-  --white:#f5f7fa;
-  --muted:#8a9ab5;
-  --red:#e74c3c;
-  --green:#27ae60;
-  --card:#162d52;
-  --border:rgba(255,255,255,0.08);
-  --safe-top:env(safe-area-inset-top,0px);
-  --safe-bot:env(safe-area-inset-bottom,0px);
+  --navy:#0d1f3c;--navy2:#162d52;--navy3:#1e3a68;
+  --gold:#f0c040;--gold2:#e6a800;--white:#f5f7fa;
+  --muted:#8a9ab5;--red:#e74c3c;--green:#27ae60;
+  --card:#162d52;--border:rgba(255,255,255,0.08);
+  --safe-top:env(safe-area-inset-top,0px);--safe-bot:env(safe-area-inset-bottom,0px);
 }
 html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM Sans',sans-serif;overflow:hidden}
 .app{display:flex;flex-direction:column;height:100%;height:100dvh}
@@ -99,6 +91,9 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
 .page{display:none;animation:fadeIn 0.2s ease}
 .page.active{display:block}
 @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.line-btn{flex:1;padding:8px;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer;border:0.5px solid var(--border)}
+.line-btn.active{background:var(--gold);color:var(--navy);border-color:var(--gold)}
+.line-btn.inactive{background:var(--card);color:var(--muted)}
 </style>
 </head>
 <body>
@@ -117,14 +112,14 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
   </div>
 
   <div class="content">
-    <!-- PAGE: HOME -->
+    <!-- HOME -->
     <div class="page active" id="page-home">
       <div style="padding:16px 16px 0">
         <div class="alert hidden" id="alertBar">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
           <span id="alertText"></span>
         </div>
-        <div class="next-card" id="nextCard" style="margin-top:12px">
+        <div class="next-card" style="margin-top:12px">
           <div>
             <div class="next-label">Επόμενο τρένο</div>
             <div class="next-big" id="nextMin">—</div>
@@ -159,15 +154,25 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
       </div>
     </div>
 
-    <!-- PAGE: STATIONS -->
+    <!-- STATIONS -->
     <div class="page" id="page-stations">
       <div class="section">
-        <div class="section-label">Γραμμή Μ1 — 17 σταθμοί</div>
-        <div id="stationList"></div>
+        <div style="display:flex;gap:8px;margin-bottom:16px">
+          <button onclick="showLine('m1')" id="btn-m1" class="line-btn active">Μ1</button>
+          <button onclick="showLine('m2')" id="btn-m2" class="line-btn inactive">Μ2</button>
+        </div>
+        <div id="line-m1">
+          <div class="section-label">Γραμμή Μ1 — 13 σταθμοί</div>
+          <div id="stationList-m1"></div>
+        </div>
+        <div id="line-m2" style="display:none">
+          <div class="section-label">Γραμμή Μ2 — 5 σταθμοί (Καλαμαριά)</div>
+          <div id="stationList-m2"></div>
+        </div>
       </div>
     </div>
 
-    <!-- PAGE: SCHEDULE -->
+    <!-- SCHEDULE -->
     <div class="page" id="page-schedule">
       <div class="section">
         <div class="section-label">Ωράριο λειτουργίας</div>
@@ -188,7 +193,7 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
       </div>
     </div>
 
-    <!-- PAGE: INFO -->
+    <!-- INFO -->
     <div class="page" id="page-info">
       <div class="section">
         <div class="section-label">Επικοινωνία</div>
@@ -203,9 +208,6 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
         <div class="sched-row"><span class="sched-key">25ης Μαρτίου</span><span class="sched-val" style="color:var(--green)">✓</span></div>
         <div class="sched-row"><span class="sched-key">Νέα Ελβετία</span><span class="sched-val" style="color:var(--green)">✓</span></div>
       </div>
-
-
-
       <div class="section" style="padding-top:0;text-align:center">
         <div style="font-size:11px;color:var(--muted);line-height:1.6">
           Δεδομένα από thessmetro.gr<br>
@@ -238,8 +240,8 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
 
 <script>
 const JSON_URL = 'https://api.smartbots.gr/metro/status';
-const STATIONS = [
-  const STATIONS_M1 = [
+
+const STATIONS_M1 = [
   {id:1,  name:'Νέος Σιδηροδρομικός Σταθμός', en:'New Railway Station', lat:40.6438924, lng:22.9284775},
   {id:2,  name:'Δημοκρατίας',                  en:'Dimokratias',         lat:40.6406651, lng:22.9349011},
   {id:3,  name:'Βενιζέλου',                    en:'Venizelou',           lat:40.633807,  lng:22.939305},
@@ -263,63 +265,7 @@ const STATIONS_M2 = [
   {id:17, name:'Μίκρα',        en:'Mikra',      lat:40.5660,    lng:22.9680},
 ];
 
-<div class="page" id="page-stations">
-  <div class="section">
-    <div style="display:flex;gap:8px;margin-bottom:16px">
-      <button onclick="showLine('m1',this)" id="btn-m1" style="flex:1;padding:8px;background:var(--gold);color:var(--navy);border:none;border-radius:8px;font-weight:600;font-size:13px;cursor:pointer">Μ1</button>
-      <button onclick="showLine('m2',this)" id="btn-m2" style="flex:1;padding:8px;background:var(--card);color:var(--muted);border:0.5px solid var(--border);border-radius:8px;font-weight:600;font-size:13px;cursor:pointer">Μ2</button>
-    </div>
-    <div id="line-m1">
-      <div class="section-label">Γραμμή Μ1 — 13 σταθμοί</div>
-      <div id="stationList-m1"></div>
-    </div>
-    <div id="line-m2" style="display:none">
-      <div class="section-label">Γραμμή Μ2 — 5 σταθμοί (Καλαμαριά)</div>
-      <div id="stationList-m2"></div>
-    </div>
-  </div>
-</div>
-
-
-function showLine(line, btn) {
-  document.getElementById('line-m1').style.display = line==='m1' ? 'block' : 'none';
-  document.getElementById('line-m2').style.display = line==='m2' ? 'block' : 'none';
-  document.getElementById('btn-m1').style.background = line==='m1' ? 'var(--gold)' : 'var(--card)';
-  document.getElementById('btn-m1').style.color = line==='m1' ? 'var(--navy)' : 'var(--muted)';
-  document.getElementById('btn-m2').style.background = line==='m2' ? 'var(--gold)' : 'var(--card)';
-  document.getElementById('btn-m2').style.color = line==='m2' ? 'var(--navy)' : 'var(--muted)';
-}
-
-function renderStations(elevators) {
-  const render = (stations, elId) => {
-    const el = document.getElementById(elId);
-    el.innerHTML = stations.map(s => {
-      const elevOk = elevators ? elevators[s.name] !== false : true;
-      return `<div class="station" data-lat="${s.lat}" data-lng="${s.lng}" style="cursor:pointer">
-        <div class="stn-num">${s.id}</div>
-        <div style="flex:1">
-          <div class="stn-name">${s.name} ${s.interchange ? '🔀' : ''}</div>
-          <div class="stn-name-en">${s.en}${s.interchange ? ' · Μετεπιβίβαση' : ''}</div>
-        </div>
-        <div class="stn-icons">
-          <span title="Ανελκυστήρας" class="${elevOk ? '' : 'elevator-off'}">⬆</span>
-          <span title="Χάρτης">📍</span>
-        </div>
-      </div>`;
-    }).join('');
-    el.querySelectorAll('.station').forEach(card => {
-      card.addEventListener('click', () => {
-        const lat = card.getAttribute('data-lat');
-        const lng = card.getAttribute('data-lng');
-        window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank');
-      });
-    });
-  };
-  render(STATIONS_M1, 'stationList-m1');
-  render(STATIONS_M2, 'stationList-m2');
-}
 const OPEN_H = 5*60+30, CLOSE_H = 23*60+30, FREQ = 3.5;
-let metroData = null;
 let timerInterval = null;
 
 function switchTab(name, btn) {
@@ -327,6 +273,13 @@ function switchTab(name, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   btn.classList.add('active');
+}
+
+function showLine(line) {
+  document.getElementById('line-m1').style.display = line==='m1' ? 'block' : 'none';
+  document.getElementById('line-m2').style.display = line==='m2' ? 'block' : 'none';
+  document.getElementById('btn-m1').className = 'line-btn ' + (line==='m1' ? 'active' : 'inactive');
+  document.getElementById('btn-m2').className = 'line-btn ' + (line==='m2' ? 'active' : 'inactive');
 }
 
 function getNowMins() {
@@ -362,8 +315,7 @@ function updateTrain(isDisrupted) {
     dot.className = 'dot ok';
     txt.textContent = 'Σε λειτουργία';
     cdWrap.style.display = 'none';
-    const minsSince = now - OPEN_H;
-    const toNext = FREQ - (minsSince % FREQ);
+    const toNext = FREQ - ((now - OPEN_H) % FREQ);
     const mins = Math.floor(toNext);
     const secs = Math.floor((toNext - mins) * 60);
     nextMin.textContent = mins > 0 ? mins : secs;
@@ -399,15 +351,15 @@ function updateCountdown() {
   `;
 }
 
-function renderStations(elevators) {
-  const el = document.getElementById('stationList');
-  el.innerHTML = STATIONS.map(s => {
+function renderStationList(stations, elId, elevators) {
+  const el = document.getElementById(elId);
+  el.innerHTML = stations.map(s => {
     const elevOk = elevators ? elevators[s.name] !== false : true;
     return `<div class="station" data-lat="${s.lat}" data-lng="${s.lng}" style="cursor:pointer">
       <div class="stn-num">${s.id}</div>
       <div style="flex:1">
-        <div class="stn-name">${s.name}</div>
-        <div class="stn-name-en">${s.en}</div>
+        <div class="stn-name">${s.name}${s.interchange ? ' 🔀' : ''}</div>
+        <div class="stn-name-en">${s.en}${s.interchange ? ' · Μετεπιβίβαση' : ''}</div>
       </div>
       <div class="stn-icons">
         <span title="Ανελκυστήρας" class="${elevOk ? '' : 'elevator-off'}">⬆</span>
@@ -415,7 +367,6 @@ function renderStations(elevators) {
       </div>
     </div>`;
   }).join('');
-
   el.querySelectorAll('.station').forEach(card => {
     card.addEventListener('click', () => {
       const lat = card.getAttribute('data-lat');
@@ -423,6 +374,11 @@ function renderStations(elevators) {
       window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank');
     });
   });
+}
+
+function renderStations(elevators) {
+  renderStationList(STATIONS_M1, 'stationList-m1', elevators);
+  renderStationList(STATIONS_M2, 'stationList-m2', elevators);
 }
 
 function renderNews(news) {
@@ -443,7 +399,6 @@ async function loadData() {
   try {
     const r = await fetch(JSON_URL + '?t=' + Date.now());
     const data = await r.json();
-    metroData = data;
     const isDisrupted = data.status?.is_disrupted || false;
     if (isDisrupted && data.status?.announcement) {
       const bar = document.getElementById('alertBar');
