@@ -240,22 +240,22 @@ html,body{height:100%;background:var(--navy);color:var(--white);font-family:'DM 
 
 <script>
 const JSON_URL = 'https://api.smartbots.gr/metro/status';
-const STATIONS_M1 = [
-  {id:1,  name:'Νέος Σιδηροδρομικός Σταθμός', en:'New Railway Station', mapurl:'https://maps.app.goo.gl/7dPsHSufaaKH3JgA8'},
-  {id:2,  name:'Δημοκρατίας',                  en:'Dimokratias',         mapurl:'https://maps.app.goo.gl/kBxGSX96i9MewRdG8'},
-  {id:3,  name:'Βενιζέλου',                    en:'Venizelou',           mapurl:'https://maps.app.goo.gl/f13UtTcatZdVsEUX9'},
-  {id:4,  name:'Αγίας Σοφίας',                 en:'Agias Sofias',        mapurl:'https://maps.app.goo.gl/muUR4PR7cJdprefq6'},
-  {id:5,  name:'Σιντριβάνι',                   en:'Sintrivani',          mapurl:'https://maps.app.goo.gl/QJ2D3FpW8nCiERFz5'},
-  {id:6,  name:'Πανεπιστήμιο',                 en:'Panepistimio',        mapurl:'https://maps.app.goo.gl/NR6zCKL9sARJLQoN8'},
-  {id:7,  name:'Παπάφη',                       en:'Papafi',              mapurl:'https://maps.app.goo.gl/jG1C9S5bxbng1PF38'},
-  {id:8,  name:'Ευκλείδης',                    en:'Efklidis',            mapurl:'https://maps.app.goo.gl/aGTXVrLMUN4dr62E9'},
-  {id:9,  name:'Φλέμινγκ',                     en:'Fleming',             mapurl:'https://maps.app.goo.gl/cqfdBDUkneVgg6A29'},
-  {id:10, name:'Ανάληψη',                      en:'Analipsi',            mapurl:'https://maps.app.goo.gl/eHqbV4x4B5tgEFDT8'},
-  {id:11, name:'25ης Μαρτίου',                 en:'25 Martiou',          mapurl:'https://maps.app.goo.gl/icxAnuEB4RUUceAD9', interchange:true},
-  {id:12, name:'Βούλγαρη',                     en:'Voulgarı',            mapurl:'https://maps.app.goo.gl/en7QVvEMjMsgALFZ9'},
-  {id:13, name:'Νέα Ελβετία',                  en:'Nea Elvetia',         mapurl:'https://maps.app.goo.gl/Kg227FQ3r8yyCpn97'},
-];
 
+const STATIONS_M1 = [
+ {id:1, name:'Νέος Σιδηροδρομικός Σταθμός', en:'New Railway Station', pluscode:'JWVH+H9 Θεσσαλονίκη'},
+  {id:2,  name:'Δημοκρατίας',                  en:'Dimokratias',         pluscode:'JWRM+7X Θεσσαλονίκη'},
+  {id:3,  name:'Βενιζέλου',                    en:'Venizelou',           pluscode:'JWPR+RJ Θεσσαλονίκη'},
+  {id:4,  name:'Αγίας Σοφίας',                 en:'Agias Sofias',        pluscode:'JWMW+MH Θεσσαλονίκη'},
+  {id:5,  name:'Σιντριβάνι',                   en:'Sintrivani',          pluscode:'JXJ3+8Q Θεσσαλονίκη'},
+  {id:6,  name:'Πανεπιστήμιο',                 en:'Panepistimio',        pluscode:'JXG6+95 Θεσσαλονίκη'},
+  {id:7,  name:'Παπάφη',                       en:'Papafi',              pluscode:'JX97+R4 Θεσσαλονίκη'},
+  {id:8,  name:'Ευκλείδης',                    en:'Efklidis',            pluscode:'JX86+82 Θεσσαλονίκη'},
+  {id:9,  name:'Φλέμινγκ',                     en:'Fleming',             pluscode:'JX65+M2 Θεσσαλονίκη'},
+  {id:10, name:'Ανάληψη',                      en:'Analipsi',            pluscode:'JX45+C6 Θεσσαλονίκη'},
+  {id:11, name:'25ης Μαρτίου',                 en:'25 Martiou',          pluscode:'JX25+CF Θεσσαλονίκη', interchange:true},
+  {id:12, name:'Βούλγαρη',                     en:'Voulgarı',            pluscode:'HXW6+67 Θεσσαλονίκη'},
+  {id:13, name:'Νέα Ελβετία',                  en:'Nea Elvetia',         pluscode:'HXV9+5Q Θεσσαλονίκη'},
+];
 
 const STATIONS_M2 = [
   {id:11, name:'25ης Μαρτίου', en:'25 Martiou', pluscode:'JX25+CF Θεσσαλονίκη', interchange:true},
@@ -355,7 +355,7 @@ function renderStationList(stations, elId, elevators) {
   const el = document.getElementById(elId);
   el.innerHTML = stations.map(s => {
     const elevOk = elevators ? elevators[s.name] !== false : true;
-    return `<div class="station" data-mapurl="${s.mapurl}"" style="cursor:pointer">
+    return `<div class="station" data-pluscode="${s.pluscode}" style="cursor:pointer">
       <div class="stn-num">${s.id}</div>
       <div style="flex:1">
         <div class="stn-name">${s.name}${s.interchange ? ' 🔀' : ''}</div>
