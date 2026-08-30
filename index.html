@@ -355,7 +355,7 @@ function renderStationList(stations, elId, elevators) {
   const el = document.getElementById(elId);
   el.innerHTML = stations.map(s => {
     const elevOk = elevators ? elevators[s.name] !== false : true;
-    return `<div class="station" data-lat="${s.lat}" data-lng="${s.lng}" style="cursor:pointer">
+    return `<div class="station" data-pluscode="${s.pluscode}" style="cursor:pointer">
       <div class="stn-num">${s.id}</div>
       <div style="flex:1">
         <div class="stn-name">${s.name}${s.interchange ? ' 🔀' : ''}</div>
@@ -371,7 +371,7 @@ function renderStationList(stations, elId, elevators) {
     card.addEventListener('click', () => {
       const lat = card.getAttribute('data-lat');
       const lng = card.getAttribute('data-lng');
-      window.open(`https://www.google.com/maps/search/?api=1&query=${lat},${lng}`, '_blank');
+      window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(card.getAttribute('data-pluscode'))}`, '_blank');
     });
   });
 }
